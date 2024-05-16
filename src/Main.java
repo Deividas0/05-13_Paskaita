@@ -4,6 +4,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Main {
@@ -14,13 +15,17 @@ public class Main {
         String directoryPath = "C:\\MokymoDarbai\\05_13_Paskaita\\";
         String[] manoFailai = listTextAndCsvFiles(directoryPath);
 
-        for(int i = 0; i < manoFailai.length; i++) {
+        for (int i = 0; i < manoFailai.length; i++) {
             if (manoFailai[i] != null) {
-                FailoPavadinimasIrMasyvas X = priskirtiFailuDuomenis(manoFailai[i]);
-                System.out.print(X);
+                try {
+                    FailoPavadinimasIrMasyvas X = priskirtiFailuDuomenis(manoFailai[i]);
+                    System.out.print(X);
+                } catch (NumberFormatException e) {
+                    StringMasyvoKlase XY = priskirtiFailuDuomenisString(manoFailai[i]);
+                    System.out.print(XY);
+                }
             }
         }
-
 
 
 //        Book1 book = new Book1();
@@ -64,8 +69,6 @@ public class Main {
         }
         return manoFailai;
     }
-//    int[] book1Masyvas = new int[10000];
-//    String failoPavadinimas;
 
     public static FailoPavadinimasIrMasyvas priskirtiFailuDuomenis(String failoPavadinimas) throws FileNotFoundException {
         FailoPavadinimasIrMasyvas book = new FailoPavadinimasIrMasyvas();
@@ -80,9 +83,30 @@ public class Main {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+
         book.book1Masyvas = book1Masyvas;
         book.failoPavadinimas = failoPavadinimas;
         book.surusiuojam(book1Masyvas);
         return book;
     }
+
+    public static StringMasyvoKlase priskirtiFailuDuomenisString(String failoPavadinimas) throws FileNotFoundException {
+        String[] book1Masyvas = new String[10000];
+        StringMasyvoKlase smk = new StringMasyvoKlase();
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(directoryPath + "\\" + failoPavadinimas))) {
+            String line;
+            int i = 0;
+            while ((line = bufferedReader.readLine()) != null) {
+                smk.book1Masyvas = line.split(" ");
+                i++;
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        smk.failoPavadinimas = failoPavadinimas;
+        smk.surusiuojam(book1Masyvas);
+        return smk;
+    }
 }
+

@@ -1,7 +1,15 @@
 import java.util.Objects;
 
-public class StringMasyvoKlase {
+public class StringMasyvoKlase extends Failobazineinformacija{
     String[] book1Masyvas = new String[10000];
+
+    public StringMasyvoKlase(String failoPavadinimas, String[] book1Masyvas) {
+        this.failoPavadinimas = failoPavadinimas;
+        this.book1Masyvas = book1Masyvas;
+    }
+    public StringMasyvoKlase() {
+    }
+
 
     public void surusiuojam(String[] array) {
         boolean swapped;
@@ -18,5 +26,16 @@ public class StringMasyvoKlase {
             }
             n--;
         } while (swapped);
+    }
+    @Override
+    public String toString() {
+        String naujas = "Failo pavadinimasStri: " + failoPavadinimas + " Failo turinys: [";
+        String skaiciai=" ";
+        for (int i = 0; i < book1Masyvas.length; i++) {
+            if(book1Masyvas[i] != null) {
+                skaiciai += book1Masyvas[i]+" ";
+            }
+        }
+        return naujas+skaiciai+"] ";
     }
 }
